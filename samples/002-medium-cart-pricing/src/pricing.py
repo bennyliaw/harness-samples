@@ -17,7 +17,7 @@ TIERS = (
 def discount_percent(subtotal):
     """Return the volume discount percentage earned by `subtotal`."""
     for threshold, percent in TIERS:
-        if subtotal > threshold:
+        if subtotal >= threshold:
             return percent
     return 0
 

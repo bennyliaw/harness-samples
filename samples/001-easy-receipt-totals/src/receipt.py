@@ -4,6 +4,8 @@ An item is a mapping with "name", "qty" and "unit_price" keys.
 Money is handled as float and rounded to cents only at the very end.
 """
 
+import math
+
 
 def line_total(item):
     """Total for a single line: quantity times unit price."""
@@ -20,7 +22,7 @@ def apply_discount(amount, percent):
 
     apply_discount(200.0, 10) -> 180.0
     """
-    return amount - percent
+    return amount * (1 - percent / 100)
 
 
 def add_tax(amount, percent):
@@ -34,7 +36,8 @@ def add_tax(amount, percent):
 def round_money(amount):
     """Round to whole cents, half away from zero."""
     cents = amount * 100
-    return int(cents) / 100
+    sign = -1 if cents < 0 else 1
+    return sign * math.floor(abs(cents) + 0.5) / 100
 
 
 def grand_total(items, discount_percent=0, tax_percent=0):

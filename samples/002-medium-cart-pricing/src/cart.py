@@ -18,7 +18,7 @@ class Cart:
             raise ValueError("qty must be positive")
         catalog.unit_price(sku)  # validate before mutating
         key = catalog.normalise_sku(sku)
-        self._items[key] = qty
+        self._items[key] = self._items.get(key, 0) + qty
 
     def remove(self, sku):
         """Remove a SKU from the cart entirely. Unknown SKUs are ignored."""

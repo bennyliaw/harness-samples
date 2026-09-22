@@ -19,7 +19,7 @@ def normalise_sku(sku):
     Canonical form is upper-case with surrounding whitespace removed:
     normalise_sku("  tea-001 ") -> "TEA-001"
     """
-    return sku.strip()
+    return sku.strip().upper()
 
 
 def lookup(sku):

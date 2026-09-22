@@ -34,7 +34,7 @@ def parse_line(line):
     return Entry(
         on=date.fromisoformat(on_text),
         description=description,
-        amount=float(amount_text),
+        amount=float(amount_text.replace(",", "")),
     )
 
 
@@ -43,7 +43,13 @@ def parse(text):
 
     Blank lines and "#" comment lines are skipped.
     """
-    return [parse_line(line) for line in text.splitlines()]
+    entries = []
+    for line in text.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        entries.append(parse_line(line))
+    return entries
 
 
 def balance(entries):
