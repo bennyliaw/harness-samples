@@ -19,10 +19,16 @@ SOLUTIONS_REF="${SOLUTIONS_REF:-solutions}"
 
 cd "$REPO_ROOT" || exit 70
 
+# A fresh clone has origin/solutions but no local solutions branch, so fall back.
 if ! git rev-parse --verify --quiet "$SOLUTIONS_REF" >/dev/null; then
-  echo "error: ref '$SOLUTIONS_REF' does not exist" >&2
-  exit 70
+  if git rev-parse --verify --quiet "origin/$SOLUTIONS_REF" >/dev/null; then
+    SOLUTIONS_REF="origin/$SOLUTIONS_REF"
+  else
+    echo "error: neither '$SOLUTIONS_REF' nor 'origin/$SOLUTIONS_REF' exists" >&2
+    exit 70
+  fi
 fi
+echo "comparing main against: $SOLUTIONS_REF"
 
 WORKTREE="$(mktemp -d "${TMPDIR:-/tmp}/harness-solutions.XXXXXX")" || exit 70
 [[ -n "$WORKTREE" && -d "$WORKTREE" ]] || { echo "error: could not create a temp worktree" >&2; exit 70; }
