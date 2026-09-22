@@ -31,6 +31,13 @@ else
 fi
 [[ -n "$PY" ]] || { echo "no python3 found" >&2; exit 69; }
 
+# Without this, a missing pytest exits 1 — indistinguishable from a genuine
+# test failure, so a fresh clone would score every sample as "fails as shipped".
+"$PY" -c "import pytest" 2>/dev/null || {
+  echo "pytest is not importable via $PY — see README (create .venv and pip install pytest)" >&2
+  exit 69
+}
+
 EXPECTED="$(sed -n 's/^tests_sha256:[[:space:]]*//p' "$MANIFEST" | tr -d '[:space:]')"
 ACTUAL="$("$PY" "$REPO_ROOT/tools/hash-tests.py" "$SAMPLE")" || exit 70
 
