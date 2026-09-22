@@ -24,8 +24,18 @@ if ! git rev-parse --verify --quiet "$SOLUTIONS_REF" >/dev/null; then
   exit 70
 fi
 
-WORKTREE="$(mktemp -d "${TMPDIR:-/tmp}/harness-solutions.XXXXXX")"
-cleanup() { git worktree remove --force "$WORKTREE" >/dev/null 2>&1 || rm -rf "$WORKTREE"; }
+WORKTREE="$(mktemp -d "${TMPDIR:-/tmp}/harness-solutions.XXXXXX")" || exit 70
+[[ -n "$WORKTREE" && -d "$WORKTREE" ]] || { echo "error: could not create a temp worktree" >&2; exit 70; }
+
+cleanup() {
+  # Belt and braces: only ever remove a non-empty path we created ourselves.
+  [[ -n "${WORKTREE:-}" && -d "$WORKTREE" ]] || return 0
+  case "$WORKTREE" in
+    */harness-solutions.*) ;;
+    *) return 0 ;;
+  esac
+  git worktree remove --force "$WORKTREE" >/dev/null 2>&1 || rm -rf -- "$WORKTREE"
+}
 trap cleanup EXIT
 
 git worktree add --detach --quiet "$WORKTREE" "$SOLUTIONS_REF" || exit 70
