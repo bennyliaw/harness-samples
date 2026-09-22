@@ -3,6 +3,4 @@ difficulty: hard
 language: python
 python_floor: "3.10"
 success_command: "./check.sh samples/003-hard-ledger-report"
-summary: "A feature addition (report.monthly_summary, which does not exist) plus parser edge cases in a second module: blank and comment lines, thousands separators, explicit plus signs. The end-to-end test only passes once both halves are done."
-files_to_change: 2
 tests_sha256: f60f43dc565d8ae0e46b977ff24fb52b6cb1bbc0a09c65e462da3ccadcad28a1

@@ -3,6 +3,4 @@ difficulty: medium
 language: python
 python_floor: "3.10"
 success_command: "./check.sh samples/002-medium-cart-pricing"
-summary: "Three interacting modules with three bugs: SKU normalisation drops the case fold, cart.add overwrites instead of accumulating, and the discount tiers are exclusive where the contract says inclusive. Two of the three surface only through a module that is itself correct."
-files_to_change: 3
 tests_sha256: 891b07baab618d1af2ca8f6db63372321d1913cee89641cbc8d867c1b9713daf
