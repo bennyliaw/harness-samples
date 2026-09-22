@@ -1,0 +1,8 @@
+id: 001-easy-receipt-totals
+difficulty: easy
+language: python
+python_floor: "3.10"
+success_command: "./check.sh samples/001-easy-receipt-totals"
+summary: "Single-file money arithmetic with two logic bugs: a percentage treated as an absolute amount, and truncation where rounding was intended."
+files_to_change: 1
+tests_sha256: 015b3a8b55c25ff2532bf98b50904754abd5cc5b395d2c26a445f97d0c149c29
